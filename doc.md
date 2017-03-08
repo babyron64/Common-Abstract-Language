@@ -184,7 +184,7 @@ Bound y.
 
 <a id = "freeing"></a>
 ## Freeing
-To make a bound variable a free one. The operation enables variables related to parameters to be free (the inverse operation of bounding). After that, the variables are set as the objects, if any, defined in the object, or otherwise set as undefined (it is omitted from the symbol-id table). What the operation does can be described as “to make the order of the object lower by 1°”. Keep it in mind that the order cannot become lower than 0°.
+To make a bound variable a free one. The operation enables variables related to parameters to be free (the inverse operation of bounding). After that, the variables are set as the objects, if any, defined in the object, or otherwise set as undefined (it is omitted from the symbol-id table). What the operation does can be described as "to make the order of the object lower by 1°". Keep it in mind that the order cannot become lower than 0°.
 
 ```
 \y, x. (x, y)
