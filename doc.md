@@ -175,7 +175,7 @@ Bound y.
 ```
 x -> (x, y)
 
-＊＊＊ bound y ＊＊＊
+*** bound y ***
 y -> x -> (x, y)
 ```
 
