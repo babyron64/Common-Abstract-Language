@@ -173,9 +173,10 @@ Bound y.
 \y, x. (x, y)
 ```
 ```
->> x -> (x, y)
-Bound y.
->> y -> x -> (x, y)
+x -> (x, y)
+
+＊＊＊ bound y ＊＊＊
+y -> x -> (x, y)
 ```
 
 \<operators\>  
@@ -192,13 +193,13 @@ Free y.
 \x. (x, y)
 ```
 ```
->> y -> x -> (x, y)
+y -> x -> (x, y)
 
 *** free y ***
->> x -> (x, y)
+x -> (x, y)
 
 *** free x ***
->> y -> (x, y)
+y -> (x, y)
 ```
 
 \<operators\>
