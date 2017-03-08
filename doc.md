@@ -46,7 +46,7 @@ First of all, I'll show how to explain the context. I use a table in the form of
 
 *** x = a, y = b context ***
 >> (x + y)	=> a + b
->> f = \z -> (x + z)
+>> f = :z -> (x + z)
 >> f c	=> a + c
 ```
 |f||
@@ -173,19 +173,27 @@ Bound y.
 \y, x. (x, y)
 ```
 ```
-x -> (x, y)
+:x -> (x, y)
 
 *** bound y ***
-y -> x -> (x, y)
+:y -> :x -> (x, y)
+```
+
+For example:
+
+```
+>> obj = {x}
+>> f = :x -> obj    // free x
+>> $(f 1)   => 1
 ```
 
 \<operators\>  
-- (->) : x -> (x, y)
-- (<-) : (x, y) <- x
+- **(->)** : :x -> (x, y)
+- **(<-)** : (x, y) <- :x
 
 <a id = "freeing"></a>
 ## Freeing
-To make a bound variable a free one. The operation enables variables related to parameters to be free (the inverse operation of bounding). After that, the variables are set as the objects, if any, defined in the object, or otherwise set as undefined (it is omitted from the symbol-id table). What the operation does can be described as "to make the order of the object lower by 1°". Keep it in mind that the order cannot become lower than 0°.
+To make a bound variable a free one. The operation enables variables related to parameters to be free (the inverse operation of bounding). After that, the variables are set as the objects, if any, defined in the object, or otherwise set as `_` (it is omitted from the symbol-id table). What the operation does can be described as "to make the order of the object lower by 1°". Keep it in mind that the order cannot become lower than 0°.
 
 ```
 \y, x. (x, y)
@@ -193,18 +201,25 @@ Free y.
 \x. (x, y)
 ```
 ```
-y -> x -> (x, y)
+:y -> :x -> (x, y)
 
 *** free y ***
-x -> (x, y)
+:x -> (x, y)
 
 *** free x ***
-y -> (x, y)
+:y -> (x, y)
+```
+
+For example:
+
+```
+>> obj = :x -> {x}
+
 ```
 
 \<operators\>
-- (>-) : x >- (x -> (x, y))
-- (-<) : (x -> (x, y)) -< x
+- **(>-)** : :x >- (x -> (x, y))
+- **(-<)** : (x -> (x, y)) -< :x
 
 \* `bound` and `free` are named after the lambda calculus.
 
@@ -275,18 +290,14 @@ You can use comments to leave some message in a source code. There is two types 
 # Special symbols
 <a id = "`_`-symbol"></a>
 ## `_` symbol
-This symbol refers to the `_` object. The runtime define the symbol and the object automatically, and you cannot re-define by yourself. `_` corresponds to `nil` or `null` in other languages. The `_` object is a special object, whose id is 0. Every object coming from this object is `_`. And though any object is assigned to `_`, `_` remains the same. You can relate a symbol to `_`. If `_` is past to the runtime, the runtime throws an error saying, `undefined`.
+This symbol refers to the `_` object. The runtime define the symbol and the object automatically, and you cannot re-define by yourself. `_` corresponds to `nil` or `null` in other languages. The `_` object is a special object, whose id is 0. Every object coming from this object is `_`. And though any object is assigned to `_`, `_` remains the same. You can relate a symbol to `_`.
 
 ```
 >> nil = _
->> nil.x		=> (E) undefined*
->> nil.x = 1	// substitute 1 for `_`
->> nil.x		=> (E) undefined*
+>> nil.x        => `_`
+>> nil.x = 1    // substitute 1 for `_`
+>> nil.x        => `_`
 ```
-
-NOTE
-- `undefined`
-: the `_` object is returned.
 
 <a id = "access-control"></a>
 # Access control
@@ -374,10 +385,10 @@ The access control operator is placed like `$` operator.
 The program written in this language is evaluated from top to down, expression by expression, when it is running, that is, in the form of **interpret**.
 
 ```
->> x    => (E) undefined
+>> x    => `_`
 >> x = 1
 >> x    => 1
->>      => (E) undefined
+>>      => `_`
 ```
 
 Expressions are recursively evaluated – until there is no **evaluable expression**<sup>\*</sup>. <!-- The evaluation starts from the expression with the highest priority and in the most left side, then to the right, to one that with the second highest in the most left, to the right… --> In this language, **leftmost outsidemost (call-by-name) strategy** is adopted (as well as Haskell).
@@ -443,7 +454,7 @@ When you force the runtime to evaluate an object that has some arguments, the ar
 >> obj.x = 1
 >> f = :y -> :z -> obj
 >> f 1      => :z -> obj
->> $(f 1)   => (E) undefined
+>> $(f 1)   => `_`
 >> f.z = 1
 >> $(f 1)   => 3
 ```
@@ -519,7 +530,7 @@ NOTE
 When an object has some arguments, the evaluable flag is not set.
 
 ```
->> f = (x + 1)  => (E) undefined // evaluable
+>> f = (x + 1)  = f = `_` // evaluable
 >> g = :x -> (x + 1)    // non-evaluable
 >> g 1      => 2
 ```
@@ -611,9 +622,9 @@ All object is defined with some kind of brakets or braces. Round brackets means 
 
 >> (1 + 1, 1 * 1)   = 1 * 1 => 1
 
->> ()   => (E) undefined
+>> ()   => `_`
 >> x = {}
->> $(x)     => (E) undefined
+>> $(x)     => `_`
 ```
 
 <a id = "value-object"></a>
@@ -625,7 +636,7 @@ All object is defined with some kind of brakets or braces. Round brackets means 
 >> x = 1
 >> 1 + 1    = (1 + 1) => 2
 >> (x)      => 1
->> f = x -> (x + 1)
+>> f = :x -> (x + 1)
 >> f 1      => (1 + 1) => 2
 ```
 
@@ -683,7 +694,7 @@ The transient object is immediately evaluated when it is not embraced (be surrou
 >> x		=> (1 + 1) => 2
 >> x = [[1 + 1]]	=> x = [[1 + 1]]
 >> x 		=> ([1 + 1]) => [1 + 1]
->> f = x -> [x + 1]
+>> f = :x -> [x + 1]
 >> f 1		=> [1 + 1]
 >> [x] = [1 + 1] 		=> (E) invalid substitution
 ```
@@ -726,7 +737,7 @@ You can use a transient object and a lazy object as a map or a container.
 ```
 >> map = {x = 1, y = 2}		// a map object
 >> map.x	=> 1
->> map.z 	=> (E) undefined
+>> map.z 	=> `_`
 >> ctn = {} 	// an empty object
 >> ctn.x = 1	// add an element as “x”
 >> ctn.y = 2	// add an element as “y”
@@ -743,12 +754,12 @@ You can use a transient object and a lazy object as a map or a container.
 You can also use a value object, but it doesn't work...
 
 ```
->> map = (x = 1, y = 2)
->> map.x    => (E) undefined
->> ctn = ()
+>> map = (x = 1, y = 2)     // map = `_`
+>> map.x    => `_`
+>> ctn = ()     // ctn = `_`
 >> ctn.x = 1
 >> ctn.y = 2
->> ctn.x    => (E) undefined
+>> ctn.x    => `_`
 ```
 
 ### Tips#2: Interchange a value object, an transient object and a lazy one.
@@ -769,7 +780,7 @@ This object can represent a symbol. Use `:` symbol before a variable symbol in o
 ```
 >> symbol = :x
 >> :x = 1       => (E) invalid substitution for a symbol object
->> $(:x) = 1    = x = 1
+>> $(:x) = 1    = x => 1
 >> x            => 1
 >> symbol       => :x
 >> $(symbol)    => 1
@@ -795,3 +806,4 @@ You cannot re-use symbol `var` for any other purpose than a keyword because `var
 ```
 
 ## 2. For sentense
+
