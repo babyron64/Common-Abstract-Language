@@ -77,7 +77,8 @@ Objects are controlled by the fundamental program, which is called **runtime**. 
 
 ![figure1](img/symbol-object.bmp)
 
-**sybmol-id table**  
+**sybmol-id table**
+
 |symbol|id|eval<sup>\*</sup>|access|const|
 |:-:|:-:|:-:|:-:|:-:|
 |a |1 |- |- |- |
@@ -87,6 +88,7 @@ Objects are controlled by the fundamental program, which is called **runtime**. 
 \* see [Evaluable flag](#evaluable-flag) section.
 
 **onode table**
+
 |id|type|address|ref count|date|
 |:-:|:-:|:-:|:-:|:-:|
 |1 |int |#1 |2 |- |
