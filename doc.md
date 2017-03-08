@@ -26,10 +26,6 @@
      - [Lazy object](#lazy-object)
      - [Tips](#objects-type-tips)
  - [Symbol object](#symbol-object)
- - [Syntax definition](#syntax-definition)
-     - [Keyword](#keyword)
-
-[editing](#edit)
 
 <a id = "context-application"></a>
 # Context application
@@ -786,24 +782,4 @@ This object can represent a symbol. Use `:` symbol before a variable symbol in o
 >> $(symbol)    => 1
 ```
 
-This is useful for meta-programming. See [Syntax definition](#syntax-definition section) section for details.
-
-<a id = "syntax-definition"></a>
-# Syntax definition (example)
-<a id = "keyword"></a>
-## 1. Keyword
-When you define a keyword (reserved word), follow this section. The language has two kinds of substitution methods – normal, constant (see also [Substitution](#substitution) section). In this method, you use constant substitution. All that you have to do is define a symbol refers to the same symbol. For example,
-
-```
->> var := :var
-```
-
-You cannot re-use symbol `var` for any other purpose than a keyword because `var` is constantly substituted. And no matter how many times you evaluate the `var`, it returns `:var`.
-
-```
->> var      => :var
->> $$var    => $$(:var) => $(var) => $(:var) => var => :var
-```
-
-## 2. For sentense
-
+This is useful for meta-programming.
