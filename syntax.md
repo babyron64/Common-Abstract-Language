@@ -1,12 +1,14 @@
 # Index
-- [Keyword](#keyword)
-- [If](#if)
-- [Switch](#switch)
-- [While](#while)
-- [For](#for)
+- [Syntax](#syntax)
+    - [Keyword](#keyword)
+    - [If](#if)
+    - [Switch](#switch)
+    - [While](#while)
+    - [For](#for)
+- [List](#list)
 
-<a id = "syntax-definition"></a>
-# Syntax definition (example)
+<a id = "syntax"></a>
+# Syntax (example)
 
 <a id = "keyword"></a>
 ## 1. Keyword
