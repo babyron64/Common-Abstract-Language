@@ -98,7 +98,7 @@ Example:
 >> "ab" + 1 :: expr<string + int>  // => "ab1" :: string
 
 >> `(1, 2, 3) - 0 :: expr<list - int>  // => `(2, 3) :: list
->> "abc" - 1 :: expr<list - int>  // "ac" :: list
+>> "abc" - 5 :: expr<list - int>  // "abc" :: list
 
 >> `(1, 2, 3)._len :: expr<list.symbol>  // => 3 :: int
 >> "abcd"._len :: expr<string.symbol>  // => 4 :: int
