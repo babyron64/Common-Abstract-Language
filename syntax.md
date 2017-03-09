@@ -104,20 +104,20 @@ Example
 ## 4. While
 Usage:
 ```
-while cond block
+while [cond] {block}
 ```
 
 Definition:
 ```
 *loop type*
 >> while := cond -> block -> (
->|     loop = (bool? cond) [$block, [loop]] _ ,
+>|     @#loop = (bool? cond) [$block, [loop]] _ ,
 >|     loop
 >| )
 
 *recursive type*
 >> while := cond -> block -> (
->|     loop = (bool? cond) [$block, loop] _ ,
+>|     @#loop = (bool? cond) [$block, loop] _ ,
 >|     loop
 >| )
 ```
@@ -126,7 +126,7 @@ Example:
 ```
 >> x = 10
 >> y = 0
->> while (x >= 0) {
+>> while [x >= 0] {
 >|     &x = x - 1 ,
 >|     &y = y + x
 >| }
@@ -137,17 +137,18 @@ Example:
 ## 5. For
 Usage:
 ```
-for :obj (cond) (procedure) {block}
+for :obj [init] [cond] [each] {block}
 ```
 
 Definition:
 ```
 >> for := obj -> init -> cond -> each -> block -> (
->|     $obj = {} ,
+>|     @#$obj = {} ,
 >|     init.$obj => $obj ,
 >|     cond.$obj => $obj ,
 >|     each.$obj => $obj ,
 >|     block.$obj => $obj ,
+>|     init ,
 >|     while cond {
 >|         $block
 >|         each
@@ -158,7 +159,7 @@ Definition:
 Example:
 ```
 >> x = 0
->> for :i (i < 10) (i = i + 1) {
+>> for :i [i = 0] [i < 10] [i = i + 1] {
 >|     &x = x + i
 >| }
 >> x  // => 45
