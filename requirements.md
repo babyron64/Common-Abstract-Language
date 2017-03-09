@@ -91,6 +91,11 @@ Example:
 >> 0.1 + 0.1 :: expr<float + float>  // => 0.2 :: float
 >> `(1, 2) + `(3, 4) :: expr<list<int> + list<int>>  // => `(1, 2, 3, 4) :: list<int>
 
+>> `(1, 2) + 3 :: expr<list<int> + int>  // => `(1, 2, 3) :: list<int>
+>> "ab" + "c" :: expr<string + char>  // => "abc" :: string
+>> "a" + 1 :: expr<char + int>  // => "a1" :: string
+>> "ab" + 1 :: expr<string + int>  // => "ab1"
+
 >> obj = {x} :: expr<so = lo>  // => _ :: none
 >> obj.:x = 1 :: expr<expr<lo.so = int>  // => _ :: none
 >> obj.:x :: expr<lo.so>  // => 1 :: int
