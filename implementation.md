@@ -179,13 +179,15 @@ For example:
 
 ```
 >> obj = {x}
->> f = :x -> obj    // free x
+>> f = :x -> obj    // bound x
 >> $(f 1)   => 1
 ```
 
 \<operators\>  
-- **(->)** : :x -> (x, y)
-- **(<-)** : (x, y) <- :x
+- **(->)**
+<!--
+- **(<-)**
+-->
 
 <a id = "freeing"></a>
 ## Freeing
@@ -209,13 +211,17 @@ Free y.
 For example:
 
 ```
->> obj = :x -> {x}
-
+>> f = :x -> {x}
+>> obj = x >- f     // free x
+>> obj.x = 1
+>> $(obj)   => 1
 ```
 
 \<operators\>
-- **(>-)** : :x >- (x -> (x, y))
-- **(-<)** : (x -> (x, y)) -< :x
+- **(>-)**
+<!--
+- **(-<)**
+-->
 
 \* `bound` and `free` are named after the lambda calculus.
 
