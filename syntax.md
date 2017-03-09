@@ -67,12 +67,32 @@ Definition:
 >| )
 
 >> switch := :val -> :block -> (
->|     block.:_cases = `()
->|     $block
->|     t_case = block.:_cases.:First [:obj -> (obj.:val == val)]
+>|     block.:_cases = `() ,
+>|     $block ,
+>|     t_case = block.:_cases.:First [:obj -> (obj.:val == val)] ,
 >|     $t_case.:block
 >| )
 ```
+
+Example
+```
+>> x = "zero"
+>> switch 3 {
+>|    case 1 {
+>|        &x = "one"
+>|    },
+>|    case 2 {
+>|        &x = "two"
+>|    },
+>|    case 3 {
+>|        &x = "three"
+>|    },
+>|    case 4 {
+>|        &x = "four"
+>|    }
+>| }
+>> x  // => "three"
+````
 
 <a id = "while"></a>
 ## 3. While
