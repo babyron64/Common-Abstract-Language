@@ -63,10 +63,14 @@ switch val {
 Definition:
 ```
 >> case := :val -> :block -> (
->|     
->|     no = _case_counter + 1
->|     case_name = "case" + string no
->|     [:(case_name)]
+>|     [_cases.:add {:val = val, :block = block}]
+>| )
+
+>> switch := :val -> :block -> (
+>|     block.:_cases = `()
+>|     $block
+>|     t_case = block.:_cases.:First [:obj -> (obj.:val == val)]
+>|     $t_case.:block
 >| )
 ```
 
@@ -81,13 +85,13 @@ Definition:
 ```
 *loop type*
 >> while := :cond -> :block -> (
->|     loop = (bool? cond) [$block, [loop]] _
+>|     loop = (bool? cond) [$block, [loop]] _ ,
 >|     loop
 >| )
 
 *recursive type*
 >> while := :cond -> :block -> (
->|     loop = (bool? cond) [$block, loop] _
+>|     loop = (bool? cond) [$block, loop] _ ,
 >|     loop
 >| )
 ```
@@ -97,7 +101,7 @@ Example:
 >> x = 10
 >> y = 0
 >> while (x >= 0) {
->|     &x = x - 1
+>|     &x = x - 1 ,
 >|     &y = y + x
 >| }
 >> y  // => 45
@@ -116,7 +120,7 @@ Definition:
 
 >> for := :obj -> :_in -> :iter -> :block -> (   // use :_in instead of :in
 >|     if ( _in != :in || symbolObj? obj ) _ else [
->|         iter.each [obj -> block]
+>|         iter.:each [obj -> block]
 >|     ]
 >| )
 ```
