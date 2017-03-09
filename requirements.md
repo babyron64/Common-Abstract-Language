@@ -78,6 +78,7 @@ Usage:
 ```
 >> expr
 >> expr, expr, ..., expr
+>> expr; expr
 ```
 
 Example:
@@ -104,6 +105,8 @@ Example:
 
 >> 1, 2, 3  // => 3
 >> 1 + 1, 2 + 2, 3 + 3  // => 2, 4, 6  => 6
+
+>> 1, 2; 3  // => 2
 ```
 
 <a id = "value-object"></a>
@@ -113,7 +116,7 @@ Usage:
 >> (expr)
 >> (
 >|     expr
->> )
+>| )
 ```
 
 Example:
@@ -143,7 +146,7 @@ Usage:
 >> [expr]
 >> [
 >|     expr
->> ]
+>| ]
 ```
 
 Example:
@@ -173,7 +176,7 @@ Usage:
 >> {expr}
 >> {
 >|     expr
->> }
+>| }
 ```
 
 Example:
@@ -199,7 +202,9 @@ Example:
 ## 6. Symbol object (so)
 Usage:
 ```
->> :name
+>> :symbol
+>> symbol => so
+>> &symbol = object
 ```
 
 Example:
@@ -228,6 +233,17 @@ Example:
 >> y  // => x => 1
 >> x = 2
 >> y  // => x => 2
+>> y = 1
+>> x  // => 2
+>> y  // => 1
+
+>> x = 1
+>> y => :x
+>> z => :y
+>> &z = 2
+>> z  // => 2
+>> y  // => 2
+>> x  // => 2
 ```
 
 <a id = "function"></a>
@@ -392,6 +408,9 @@ Example:
 >> obj.:b  // => 2
 >> obj.:c  // => (E) access denied
 >> obj.:d  // => (E) access denied
+>> @+w
+>> obj = {a = 1, @+b = 2, @#c = 3, @-d = 4}
+>> obj.:w  // => 4
 ```
 
 <a id = "forced-evaluation"></a>
@@ -430,7 +449,7 @@ Example:
 >> 1 + 1 /* one plus one */
 >> 1 + 1 /*
 >| one plus one
->> */
+>| */
 ```
 
 <a id = "none-value"></a>
