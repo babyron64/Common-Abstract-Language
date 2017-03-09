@@ -97,12 +97,12 @@ Example:
 >> "a" + 1 :: expr<char + int>  // => "a1" :: string
 >> "ab" + 1 :: expr<string + int>  // => "ab1"
 
->> `(1, 2, 3).:0 :: expr<list.so>  // => 1
->> "abcd".:2 :: expr<string.so>  // => "c"
+>> `(1, 2, 3).0 :: expr<list.so>  // => 1
+>> "abcd".2 :: expr<string.so>  // => "c"
 
 >> obj = {x} :: expr<so = lo>  // => _ :: none
->> obj.:x = 1 :: expr<expr<lo.so = int>  // => _ :: none
->> obj.:x :: expr<lo.so>  // => 1 :: int
+>> obj.x = 1 :: expr<expr<lo.so = int>  // => _ :: none
+>> obj.x :: expr<lo.so>  // => 1 :: int
 
 >> x = 1 + 1  // x = 2  => _
 >> x  // => 2
@@ -110,7 +110,7 @@ Example:
 
 >> obj = x  // obj = expr
 >> $obj  // => _  => _
->> obj.:x = 1
+>> obj.x = 1
 >> obj  // => 1
 
 >> 1, 2, 3  // => 3
@@ -251,7 +251,7 @@ Example:
 
 // NOTE: y => x = 1
 >> x = 1
->> y => :x
+>> y => x
 >> y  // => x => 1
 >> x = 2
 >> y  // => x => 2
@@ -260,8 +260,8 @@ Example:
 >> y  // => 1
 
 >> x = 1
->> y => :x
->> z => :y
+>> y => x
+>> z => y
 >> &z = 2
 >> z  // => 2
 >> y  // => 2
@@ -272,36 +272,36 @@ Example:
 # Function
 Usage:
 ```
->> param-so -> object
+>> param-symbol -> object
 ```
 
 Example:
 ```
->> :x -> x :: \x. expr
->> :x -> (x) :: \x. vo
->> :x -> :y -> [x + y] :: \x, y. [expr]
->> :x -> :y -> {x} :: \x, y. {expr}
+>> x -> x :: \x. expr
+>> x -> (x) :: \x. vo
+>> x -> y -> [x + y] :: \x, y. [expr]
+>> x -> y -> {x} :: \x, y. {expr}
 
->> (:x -> x + 1) 1  // => 2
->> [:x -> x + 1] 1  // => (E) too many arguments
+>> (x -> x + 1) 1  // => 2
+>> [x -> x + 1] 1  // => (E) too many arguments
 
->> f = :x -> x + 1
+>> f = x -> x + 1
 >> f 1  // => [x = 1]\x. x + 1  => 1 + 1  => 2
->> g = :x -> :y -> (x * 10) + y
+>> g = x -> y -> (x * 10) + y
 >> g 1 2  // => [x = 1, y = 2]\. (x * 10) + y  => (1 * 10) + 2  => 12
 >> g 1  // => [x = 1]\y. (x * 10) + y
 >> h = g 1
 >> h 2  // => [x = 1, y = 2]\. (x * 10) + y  => (1 * 10) + 2  => 12
 
->> f = :x -> :y -> x + y
+>> f = x -> y -> x + y
 >> g = f 1  // g = [x = 1]\y . x + y
 >> $g  // => [x = 1, y = _]\. x + y  => 1 + _  => _
->> g.:y = 1  // g = [x = 1, y = 1]\y. x + y
+>> g.y = 1  // g = [x = 1, y = 1]\y. x + y
 >> $g  // => [x = 1, y = 1]\. x + y  => 1 + 1  => 2
->> g.:x = 2  // g = [x = 2, y = 1]\y. x + y
+>> g.x = 2  // g = [x = 2, y = 1]\y. x + y
 >> $g  // => [x = 2, y = 1]\. x + y  => 2 + 1  => 3
 
->> f = :x -> 1
+>> f = x -> 1
 >> f 2  // => 1
 >> $f  // => 1
 ```
@@ -310,16 +310,16 @@ Example:
 ## Bound
 Usage:
 ```
->> param-so -> object
+>> param-symbol -> object
 ```
 
 Example:
 ```
->> f = :x -> x + 1
+>> f = x -> x + 1
 >> f 1 // => 2
 
 >> obj = x + 1
->> f = :x -> obj
+>> f = x -> obj
 >> f 1  // => 2
 ```
 
@@ -327,18 +327,19 @@ Example:
 ## Free
 Usage:
 ```
->> param-so >- object
+>> param-symbol >- object
 ```
 
 Example:
 ```
->> f = :x -> x + 1
->> obj = :x >- f  // obj = x + 1
+>> f = x -> x + 1
+>> obj = x >- f  // obj = x + 1
 >> obj  // => _ + 1  => _
->> obj.:x = 1
+>> obj.x = 1
 >> obj  // => 1 + 1  => 2
 ```
 
+<!--
 <a id = "function-misc"></a>
 ## Misc
 What if `:x -> obj` == `x -> obj` (syntax sugar):
@@ -350,6 +351,7 @@ What if `:x -> obj` == `x -> obj` (syntax sugar):
 >> g = x -> x
 >> g x  // => g :y or g :x ?
 ```
+-->
 
 <a id = "substitution"></a>
 # Substitution
@@ -391,13 +393,13 @@ Example:
 ```
 >> x = 1
 >> obj = {}
->> obj.:x  // => 1
+>> obj.x  // => 1
 >> x = 2
->> obj.:x  // => 2
->> obj.:x = 3
+>> obj.x  // => 2
+>> obj.x = 3
 >> x  // => 2
 >> x = 1
->> obj.:x  // => 3
+>> obj.x  // => 3
 ```
 
 <a id = "access-control"></a>
@@ -423,17 +425,17 @@ Example:
 >> z  // => 3
 >> w  // => 4
 >> obj = {a = 1, @+b = 2, @#c = 3, @-d = 4}
->> obj.:x  // => 1
->> obj.:y  // => 2
->> obj.:z  // => (E) access denied
->> obj.:w  // => _
->> obj.:a  // => 1
->> obj.:b  // => 2
->> obj.:c  // => (E) access denied
->> obj.:d  // => (E) access denied
+>> obj.x  // => 1
+>> obj.y  // => 2
+>> obj.z  // => (E) access denied
+>> obj.w  // => _
+>> obj.a  // => 1
+>> obj.b  // => 2
+>> obj.c  // => (E) access denied
+>> obj.d  // => (E) access denied
 >> @+w
 >> obj = {a = 1, @+b = 2, @#c = 3, @-d = 4}
->> obj.:w  // => 4
+>> obj.w  // => 4
 ```
 
 <a id = "forced-evaluation"></a>
@@ -494,5 +496,5 @@ Example:
 >> obj = _
 >> obj.x = 1
 >> obj.x  // => _
->> (:x -> obj) 1  // => _
+>> (x -> obj) 1  // => _
 ```
