@@ -377,7 +377,8 @@ Example:
 ```
 >> x := 1
 >> x = 2  // (E) access denied
->> x = 1  //(E) access denied
+>> obj = {x = 2}
+>> $obj  // (E) access denied
 ```
 
 <a id = "context-application"></a>
