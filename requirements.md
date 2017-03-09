@@ -64,6 +64,7 @@ Example:
 >> "a" :: char  // => "a" :: char
 >> `(1, 2, 3) :: list<int  // => `(1, 2, 3) :: list<int>
 >> `("a", "b", "c") :: list<char>  // => `("a", "b", "c") :: list<char> = string
+>> "abc" :: string  // => `("a", "b", "c") :: string
 >> _ :: none  // => _ :: none
 
 >> $1  // => 1
@@ -203,6 +204,8 @@ Example:
 Usage:
 ```
 >> :symbol
+>> :char
+>> :string
 >> symbol => so
 >> &symbol = object
 ```
@@ -226,6 +229,9 @@ Example:
 >> $y  // => x => 1
 >> x = 2
 >> $y  // => x => 2
+
+>> :"x"  // => :x
+>> :"xyz"  // => :xyz
 
 // NOTE: y => x = 1
 >> x = 1
