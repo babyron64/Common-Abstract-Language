@@ -1,13 +1,13 @@
-# Index
+<a id = "syntax"></a>
+# Syntax (example)
+
+## Index
 - [Keyword](#keyword)
 - [If](#if)
 - [Switch](#switch)
 - [While](#while)
 - [For](#for)
 - [Foreach](#foreach)
-
-<a id = "syntax"></a>
-# Syntax (example)
 
 <a id = "keyword"></a>
 ## 1. Keyword

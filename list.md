@@ -1,4 +1,7 @@
-# Index
+<a id = "list"></a>
+# List
+
+## Index
 - [Define](#define)
 - [Add](#add)
 - [Delete](#delete)
@@ -11,9 +14,6 @@
 - [First](#first)
 - [Any?](#any?)
 - [All?](#all?)
-
-<a id = "list"></a>
-# List
 
 <a id = "define"></a>
 ## 1. Define

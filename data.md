@@ -1,8 +1,8 @@
-# Index
+# Data
+
+## Index
 - [Int](#int)
 - [Bool](#bool)
-
-# Data
 
 <a id = "int"></a>
 ## Int
