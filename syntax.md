@@ -1,3 +1,9 @@
+# INDEX
+- [Keyword](#keyword)
+- [If](#if)
+- [While](#while)
+- [For](#for)
+
 <a id = "syntax-definition"></a>
 # Syntax definition (example)
 
@@ -16,8 +22,8 @@ You cannot re-use symbol `var` for any other purpose than a keyword because `var
 >> $$var    => $$(:var) => $(var) => $(:var) => var => :var
 ```
 
-<a id = "if-sentense"></a>
-## 2. If sentense
+<a id = "if"></a>
+## 2. If
 Usage:
 ```
 if cond {when true} else {when false}
@@ -39,8 +45,33 @@ Definition:
 >| )
 ```
 
-<a id = "while-sentense"></a>
-## 3. While sentense
+<a id = "switch"></a>
+## 4. Switch
+Usage:
+```
+switch val {
+    case val1 {
+        
+    },
+    case val2 {
+
+    },
+    ...
+}
+```
+
+Definition:
+```
+>> case := :val -> :block -> (
+>|     
+>|     no = _case_counter + 1
+>|     case_name = "case" + string no
+>|     [:(case_name)]
+>| )
+```
+
+<a id = "while"></a>
+## 3. While
 Usage:
 ```
 while cond block
@@ -72,8 +103,8 @@ Example:
 >> y  // => 45
 ```
 
-<a id = "for-sentense"></a>
-## 4. For sentense
+<a id = "for"></a>
+## 4. For
 Usage:
 ```
 for :obj in iter {loop}
