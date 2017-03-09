@@ -62,8 +62,9 @@ Example:
 >> 1 :: int  // => 1 :: int
 >> 3.14 :: float  // => 3.14 :: float
 >> "a" :: char  // => "a" :: char
->> `(1, 2, 3) :: list<int  // => `(1, 2, 3) :: list<int>
->> `("a", "b", "c") :: list<char>  // => `("a", "b", "c") :: list<char> = string
+>> `(1, 2, 3) :: list  // => `(1, 2, 3) :: list
+>> `("a", "b", "c") :: list  // => `("a", "b", "c") :: list = string
+>> `(1, "a", "abc") :: list  // => `(1, "a", "abc") :: list
 >> "abc" :: string  // => `("a", "b", "c") :: string
 >> _ :: none  // => _ :: none
 
@@ -89,12 +90,15 @@ Example:
 
 >> 1 + 1 :: expr<int + int>  // => 2 :: int
 >> 0.1 + 0.1 :: expr<float + float>  // => 0.2 :: float
->> `(1, 2) + `(3, 4) :: expr<list<int> + list<int>>  // => `(1, 2, 3, 4) :: list<int>
+>> `(1, 2) + `(3, 4) :: expr<list + list>  // => `(1, 2, 3, 4) :: list
 
->> `(1, 2) + 3 :: expr<list<int> + int>  // => `(1, 2, 3) :: list<int>
+>> `(1, 2) + 3 :: expr<list + int>  // => `(1, 2, 3) :: list
 >> "ab" + "c" :: expr<string + char>  // => "abc" :: string
 >> "a" + 1 :: expr<char + int>  // => "a1" :: string
 >> "ab" + 1 :: expr<string + int>  // => "ab1"
+
+>> `(1, 2, 3).:0 :: expr<list.so>  // => 1
+>> "abcd".:2 :: expr<string.so>  // => "c"
 
 >> obj = {x} :: expr<so = lo>  // => _ :: none
 >> obj.:x = 1 :: expr<expr<lo.so = int>  // => _ :: none
