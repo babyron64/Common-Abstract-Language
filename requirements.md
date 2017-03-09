@@ -95,14 +95,20 @@ Example:
 >> `(1, 2) + 3 :: expr<list + int>  // => `(1, 2, 3) :: list
 >> "ab" + "c" :: expr<string + char>  // => "abc" :: string
 >> "a" + 1 :: expr<char + int>  // => "a1" :: string
->> "ab" + 1 :: expr<string + int>  // => "ab1"
+>> "ab" + 1 :: expr<string + int>  // => "ab1" :: string
 
->> `(1, 2, 3).0 :: expr<list.so>  // => 1
->> "abcd".2 :: expr<string.so>  // => "c"
+>> `(1, 2, 3) - 0 :: expr<list - int>  // => `(2, 3) :: list
+>> "abc" - 1 :: expr<list - int>  // "ac" :: list
+
+>> `(1, 2, 3)._len :: expr<list.symbol>  // => 3 :: int
+>> "abcd"._len :: expr<string.symbol>  // => 4 :: int
+
+>> `(1, 2, 3).0 :: expr<list.symbol>  // => 1
+>> "abcd".2 :: expr<string.symbol>  // => "c"
 
 >> obj = {x} :: expr<so = lo>  // => _ :: none
->> obj.x = 1 :: expr<expr<lo.so = int>  // => _ :: none
->> obj.x :: expr<lo.so>  // => 1 :: int
+>> obj.x = 1 :: expr<expr<lo.symbol = int>  // => _ :: none
+>> obj.x :: expr<lo.symbol>  // => 1 :: int
 
 >> x = 1 + 1  // x = 2  => _
 >> x  // => 2
