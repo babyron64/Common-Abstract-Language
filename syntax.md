@@ -1,6 +1,7 @@
-# INDEX
+# Index
 - [Keyword](#keyword)
 - [If](#if)
+- [Switch](#switch)
 - [While](#while)
 - [For](#for)
 
@@ -46,7 +47,7 @@ Definition:
 ```
 
 <a id = "switch"></a>
-## 4. Switch
+## 3. Switch
 Usage:
 ```
 switch val {
@@ -95,7 +96,7 @@ Example
 ````
 
 <a id = "while"></a>
-## 3. While
+## 4. While
 Usage:
 ```
 while cond block
@@ -128,7 +129,7 @@ Example:
 ```
 
 <a id = "for"></a>
-## 4. For
+## 5. For
 Usage:
 ```
 for :obj in iter {loop}
