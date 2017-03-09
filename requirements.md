@@ -1,5 +1,6 @@
 # Index
 - [Create object](#create-object)
+    - [Clone object](#clone-object)
 - [Object type](#object-type)
     - [Literal object](#literal-object)
     - [Expression object](#expression-object)
@@ -33,6 +34,27 @@ Example:
 >> [1 + 1] :: transient object
 >> {1 + 1} :: lazy object
 >> :x :: symbol object
+```
+
+<a id = "clone-object"></a>
+## Clone object
+Usage:
+```
+>> object._clone
+```
+
+Example:
+```
+>> obj = {x = 1, @+y = 1, @#z = 1, @-w = 1}
+>> cln = obj._clone
+>> cln.f = [x + y + z + w]
+>> cln.f  // => 4
+
+*cf*
+>> ca = {}
+>> obj >> ca
+>> ca.f = [x + y + z + w]
+>> ca.f  // => _  // w is not defined
 ```
 
 <a id = "object-type"></a>
@@ -406,6 +428,34 @@ Example:
 >> x  // => 2
 >> x = 1
 >> obj.x  // => 3
+```
+
+## Forced application
+Usage:
+```
+object >> object
+```
+
+Example:
+```
+>> x = {a = 1, b = 1}
+>> y = {a = 2, c = 2}
+>> x >> y
+>> y.a  // => 2
+>> y.b  // => 1
+>> y.c  // => 2
+
+>> x = {@+a = 1, @#b = 1, @-c = 1}
+>> y = {}
+>> x >> y
+>> y.a  // => 1
+>> y.b  // => (E) access denied
+>> y.c  // => (E) access denied
+
+>> x = {a := 1}
+>> y = {a = 2}
+>> x >> y
+>> y.a  // => 1
 ```
 
 <a id = "access-control"></a>
