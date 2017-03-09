@@ -35,6 +35,10 @@ Definition:
 >> true := :x -> :y -> x
 >> false := :x -> :y -> y
 
+*system defined*
+>> a == b := if (a == b) then [$:true] else [$:false]
+>> a != b := not a == b
+
 >> bool? := :val -> (
 >|     (val != true && val != false) false true
 >| )
