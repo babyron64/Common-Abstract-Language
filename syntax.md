@@ -1,11 +1,10 @@
 # Index
-- [Syntax](#syntax)
-    - [Keyword](#keyword)
-    - [If](#if)
-    - [Switch](#switch)
-    - [While](#while)
-    - [For](#for)
-- [List](#list)
+- [Keyword](#keyword)
+- [If](#if)
+- [Switch](#switch)
+- [While](#while)
+- [For](#for)
+- [Foreach](#foreach)
 
 <a id = "syntax"></a>
 # Syntax (example)
@@ -34,20 +33,20 @@ if cond {when true} else {when false}
 
 Definition:
 ```
->> true := :x -> :y -> x
->> false := :x -> :y -> y
+>> true := x -> y -> x
+>> false := x -> y -> y
 
 *system defined*
->> a == b := if (a == b) then [$:true] else [$:false]
+>> a == b := if (a == b) then {$:true} else {$:false}
 >> a != b := not a == b
 
->> bool? := :val -> (
+>> bool? := val -> (
 >|     (val != true && val != false) false true
 >| )
 
 >> else := :else
 
->> if := :cond -> :t_block -> :_else -> :f_block -> (
+>> if := cond -> t_block -> _else -> f_block -> (
 >|     (bool? cond) [cond [$t_block] [$f_block]] _
 >| )
 ```
@@ -69,15 +68,15 @@ switch val {
 
 Definition:
 ```
->> case := :val -> :block -> (
->|     [_cases.:add {:val = val, :block = block}]
+>> case := _val -> _block -> (
+>|     [_cases.add {val = _val, block = _block}]
 >| )
 
->> switch := :val -> :block -> (
->|     block.:_cases = `() ,
+>> switch := val -> block -> (
+>|     block._cases = list `() ,
 >|     $block ,
->|     t_case = block.:_cases.:First [:obj -> (obj.:val == val)] ,
->|     $t_case.:block
+>|     t_case = block._cases.first [:obj -> (obj.val == val)] ,
+>|     $t_case.block
 >| )
 ```
 
@@ -111,13 +110,13 @@ while cond block
 Definition:
 ```
 *loop type*
->> while := :cond -> :block -> (
+>> while := cond -> block -> (
 >|     loop = (bool? cond) [$block, [loop]] _ ,
 >|     loop
 >| )
 
 *recursive type*
->> while := :cond -> :block -> (
+>> while := cond -> block -> (
 >|     loop = (bool? cond) [$block, loop] _ ,
 >|     loop
 >| )
@@ -138,24 +137,54 @@ Example:
 ## 5. For
 Usage:
 ```
-for :obj in iter {loop}
+for :obj (cond) (procedure) {block}
 ```
 
 Definition:
 ```
->> in := :in    // keyword definition
-
->> for := :obj -> :_in -> :iter -> :block -> (   // use :_in instead of :in
->|     if ( _in != :in || symbolObj? obj ) _ else [
->|         iter.:each [obj -> block]
->|     ]
+>> for := obj -> init -> cond -> each -> block -> (
+>|     $obj = {} ,
+>|     init.$obj => $obj ,
+>|     cond.$obj => $obj ,
+>|     each.$obj => $obj ,
+>|     block.$obj => $obj ,
+>|     while cond {
+>|         $block
+>|         each
+>|     }
 >| )
 ```
 
 Example:
 ```
 >> x = 0
->> for :obj in `(1, 2, 3) {
+>> for :i (i < 10) (i = i + 1) {
+>|     &x = x + i
+>| }
+>> x  // => 45
+```
+
+<a id = "foreach"></a>
+## 5. Foreach
+Usage:
+```
+foreach :obj in iter {loop}
+```
+
+Definition:
+```
+>> in := :in    // keyword definition
+
+>> foreach := obj -> _in -> iter -> block -> (   // use _in instead of in
+>|     if ( _in != :in || symbolObj? obj ) _
+>|     else {iter.each [$obj -> block]}
+>| )
+```
+
+Example:
+```
+>> x = 0
+>> foreach :obj in `(1, 2, 3) {
 >|     &x = x + obj
 >| }
 >> x  // => 6
